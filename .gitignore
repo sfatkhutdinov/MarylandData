@@ -1,0 +1,156 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Data files (sensitive/large datasets)
+data/raw/**/*.csv
+data/raw/**/*.xlsx
+data/raw/**/*.json
+data/raw/**/*.zip
+data/processed/**/*.csv
+data/processed/**/*.parquet
+data/processed/**/*.feather
+
+# API keys and credentials (CRITICAL for Census API, BLS, etc.)
+.env
+*.key
+api_keys.txt
+secrets.json
+credentials.json
+config/secrets/
+.secrets/
+
+# Large output files
+*.log
+*.out
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Documentation builds
+docs/_build/
+site/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Visualization outputs (can be regenerated)
+visuals/**/*.png
+visuals/**/*.jpg
+visuals/**/*.pdf
+visuals/**/*.svg
+
+# Archive directory (old analysis)
+# Uncomment if you want to exclude archive from tracking
+# .archive/
+
+# macOS specific
+.AppleDouble
+.LSOverride
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows specific
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Linux specific
+*~
+
+# Playwright and automation
+.playwright-mcp/
+playwright-report/
+test-results/

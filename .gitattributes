@@ -1,0 +1,49 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Data files - treat as binary to prevent corruption
+*.csv binary
+*.xlsx binary
+*.xls binary
+*.parquet binary
+*.feather binary
+*.pkl binary
+*.pickle binary
+*.h5 binary
+*.hdf5 binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg text
+*.pdf binary
+
+# Archives
+*.zip binary
+*.tar.gz binary
+*.rar binary
+
+# Jupyter notebooks - treat as text but with custom diff
+*.ipynb text
+*.ipynb diff=jupyternotebook
+
+# Documentation
+*.rst text
+*.tex text
+
+# Shell scripts
+*.sh text eol=lf
+
+# Windows batch files
+*.bat text eol=crlf
+*.cmd text eol=crlf
