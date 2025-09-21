@@ -1,5 +1,13 @@
 # GitHub Copilot Instructions
 
+## CRITICAL: Memory Management Required
+
+**🧠 MANDATORY: Use memory MCP for ALL sessions**
+- ALWAYS call `mcp_memory_search_nodes` at session start to retrieve previous context
+- ALWAYS call `mcp_memory_add_observations` when discovering new patterns or making decisions
+- ALWAYS call `mcp_memory_create_entities` to store project context, decisions, and rationale
+- NEVER proceed without establishing memory context of prior work and methodological decisions
+
 ## Project Overview
 
 This is a **methodological rebuild** of a community improvement analysis for Hanover, MD (ZIP 21076). The project is currently in active reconstruction due to fundamental flaws identified in the original analysis (archived in `.archive/`).
@@ -31,6 +39,13 @@ This is a **methodological rebuild** of a community improvement analysis for Han
 - **Geographic Context**: Suburban community in Baltimore-DC metro area
 
 ## Development Standards
+
+### Session Management Protocol
+**🧠 REQUIRED MEMORY WORKFLOW:**
+1. **Session Start**: `mcp_memory_search_nodes` to retrieve project context
+2. **During Work**: `mcp_memory_add_observations` for all decisions and discoveries
+3. **Before Ending**: `mcp_memory_create_entities` for new components or insights
+4. **NEVER**: Work without memory context - methodological decisions must persist
 
 ### Python Environment
 - **Python 3.9+** required

@@ -125,6 +125,9 @@ visuals/**/*.jpg
 visuals/**/*.pdf
 visuals/**/*.svg
 
+# Project memory (keep this for session persistence)
+# .memory/
+
 # Archive directory (old analysis)
 # Uncomment if you want to exclude archive from tracking
 # .archive/
