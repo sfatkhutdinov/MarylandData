@@ -1,0 +1,76 @@
+{
+  "basic_demographics": {
+    "Total Population": {
+      "variable_id": "B01003_001E",
+      "raw_value": "23642",
+      "converted_value": 23642,
+      "official_definition": "Estimate!!Total"
+    },
+    "Median Household Income": {
+      "variable_id": "B19013_001E",
+      "raw_value": "143409",
+      "converted_value": 143409,
+      "official_definition": "Estimate!!Median household income in the past 12 months (in 2023 inflation-adjusted dollars)"
+    },
+    "Median Home Value": {
+      "variable_id": "B25077_001E",
+      "raw_value": "492100",
+      "converted_value": 492100,
+      "official_definition": "Estimate!!Median value (dollars)"
+    },
+    "Total Housing Units": {
+      "variable_id": "B25001_001E",
+      "raw_value": "9553",
+      "converted_value": 9553,
+      "official_definition": "Estimate!!Total"
+    },
+    "Owner Occupied": {
+      "variable_id": "B25003_002E",
+      "raw_value": "6168",
+      "converted_value": 6168,
+      "official_definition": "Estimate!!Total:!!Owner occupied"
+    },
+    "Renter Occupied": {
+      "variable_id": "B25003_003E",
+      "raw_value": "3129",
+      "converted_value": 3129,
+      "official_definition": "Estimate!!Total:!!Renter occupied"
+    }
+  },
+  "commuting_patterns": {
+    "Total Workers 16+": {
+      "raw": "13949",
+      "converted": 13949,
+      "definition": "Estimate!!Total:"
+    },
+    "Public Transportation": {
+      "raw": "338",
+      "converted": 338,
+      "definition": "Estimate!!Total:!!Public transportation (excluding taxicab):"
+    },
+    "Worked from Home": {
+      "raw": "2658",
+      "converted": 2658,
+      "definition": "Estimate!!Total:!!Worked from home"
+    },
+    "Car/Truck/Van Alone": {
+      "raw": "9972",
+      "converted": 9972,
+      "definition": "Estimate!!Total:!!Car, truck, or van:!!Drove alone"
+    },
+    "Car/Truck/Van Carpooled": {
+      "raw": "829",
+      "converted": 829,
+      "definition": "Estimate!!Total:!!Car, truck, or van:!!Carpooled:"
+    }
+  },
+  "income_data_count": 107,
+  "age_data_count": 328,
+  "analysis_timestamp": {
+    "zip_code": "21076",
+    "total_variables_tested": 28263,
+    "variables_with_data": 28263,
+    "discovery_method": "Tested all available variables",
+    "api_source": "https://api.census.gov/data/2023/acs/acs5"
+  }
+}
