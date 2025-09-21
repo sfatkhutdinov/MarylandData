@@ -1,0 +1,110 @@
+{
+  "collection_timestamp": "2025-09-21T19:04:50.273217",
+  "geographic_area": "ZIP 21076 (Hanover, MD)",
+  "data_sources": {
+    "census": "ACS 5-Year Estimates 2023",
+    "housing": "Maryland Department of Planning"
+  },
+  "raw_census_data": {
+    "B01003_001E": {
+      "description": "Total Population",
+      "raw_value": "23642",
+      "value": 23642
+    },
+    "B19013_001E": {
+      "description": "Median Household Income",
+      "raw_value": "143409",
+      "value": 143409
+    },
+    "B25077_001E": {
+      "description": "Median Home Value",
+      "raw_value": "492100",
+      "value": 492100
+    },
+    "B25001_001E": {
+      "description": "Total Housing Units",
+      "raw_value": "9553",
+      "value": 9553
+    },
+    "B25003_002E": {
+      "description": "Owner Occupied Housing",
+      "raw_value": "6168",
+      "value": 6168
+    },
+    "B25003_003E": {
+      "description": "Renter Occupied Housing",
+      "raw_value": "3129",
+      "value": 3129
+    },
+    "B25004_001E": {
+      "description": "Vacancy Status Total",
+      "raw_value": "256",
+      "value": 256
+    },
+    "B08301_001E": {
+      "description": "Total Workers 16+",
+      "raw_value": "13949",
+      "value": 13949
+    },
+    "B08301_010E": {
+      "description": "Public Transportation to Work",
+      "raw_value": "338",
+      "value": 338
+    },
+    "B08301_021E": {
+      "description": "Worked from Home",
+      "raw_value": "2658",
+      "value": 2658
+    },
+    "B08303_001E": {
+      "description": "Travel Time to Work Total",
+      "raw_value": "11291",
+      "value": 11291
+    },
+    "B15003_022E": {
+      "description": "Bachelor's Degree",
+      "raw_value": "5034",
+      "value": 5034
+    },
+    "B15003_023E": {
+      "description": "Master's Degree",
+      "raw_value": "3505",
+      "value": 3505
+    },
+    "B15003_024E": {
+      "description": "Professional Degree",
+      "raw_value": "508",
+      "value": 508
+    },
+    "B15003_025E": {
+      "description": "Doctorate Degree",
+      "raw_value": "276",
+      "value": 276
+    }
+  },
+  "housing_development_data": {
+    "howard_county_2022": 571,
+    "howard_county_2021": 1735,
+    "anne_arundel_2022": 1825,
+    "anne_arundel_2021": 1745,
+    "source": "Maryland Department of Planning",
+    "dataset": "Total New Housing Units Authorized For Construction"
+  },
+  "calculated_metrics": {
+    "population_2023": 23642,
+    "population_2020": 22299,
+    "growth_rate": 6.0226916005202025,
+    "vacancy_rate": 2.679786454516906,
+    "total_housing_units": 9553,
+    "occupied_units": 9297,
+    "median_income": 143409,
+    "median_home_value": 492100,
+    "price_to_income_ratio": 3.431444330551081,
+    "affordable_home_price": 430227,
+    "total_workers": 13949,
+    "public_transit_rate": 2.423112767940354,
+    "work_from_home_rate": 19.055129399956986,
+    "college_plus_rate": 39.43405803231537,
+    "howard_housing_decline_2022": 67.08933717579251
+  }
+}

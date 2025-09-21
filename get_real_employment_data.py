@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+"""
+Get REAL employment and income data for Hanover
+Stop making assumptions about who lives here and what they do
+"""
+
+import requests
+import json
+import os
+import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def get_detailed_income_distribution():
+    """Get actual income distribution, not made-up brackets"""
+    api_key = os.getenv('CENSUS_API_KEY')
+    if not api_key:
+        print("ERROR: Need CENSUS_API_KEY")
+        return None
+
+    base_url = 'https://api.census.gov/data/2023/acs/acs5'
+
+    # ALL income distribution variables - let's see the real picture
+    income_variables = {
+        'B19001_001E': 'Total Households',
+        'B19001_002E': 'Less than $10,000',
+        'B19001_003E': '$10,000 to $14,999',
+        'B19001_004E': '$15,000 to $19,999',
+        'B19001_005E': '$20,000 to $24,999',
+        'B19001_006E': '$25,000 to $29,999',
+        'B19001_007E': '$30,000 to $34,999',
+        'B19001_008E': '$35,000 to $39,999',
+        'B19001_009E': '$40,000 to $44,999',
+        'B19001_010E': '$45,000 to $49,999',
+        'B19001_011E': '$50,000 to $59,999',
+        'B19001_012E': '$60,000 to $74,999',
+        'B19001_013E': '$75,000 to $99,999',
+        'B19001_014E': '$100,000 to $124,999',
+        'B19001_015E': '$125,000 to $149,999',
+        'B19001_016E': '$150,000 to $199,999',
+        'B19001_017E': '$200,000 or more'
+    }
+
+    params = {
+        'get': ','.join(income_variables.keys()),
+        'for': 'zip code tabulation area:21076',
+        'key': api_key
+    }
+
+    try:
+        response = requests.get(base_url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        if not data or len(data) < 2:
+            return None
+
+        headers = data[0]
+        values = data[1]
+
+        results = {}
+        for i, header in enumerate(headers):
+            if header in income_variables and i < len(values):
+                raw_value = values[i]
+                try:
+                    if raw_value in ['-666666666', '-888888888', '-999999999', None]:
+                        converted_value = None
+                    else:
+                        converted_value = int(raw_value)
+                except (ValueError, TypeError):
+                    converted_value = raw_value
+
+                results[header] = {
+                    'description': income_variables[header],
+                    'value': converted_value
+                }
+
+        return results
+
+    except Exception as e:
+        print(f"ERROR: {e}")
+        return None
+
+def get_employment_by_industry():
+    """Get actual employment data - what do people actually do for work?"""
+    api_key = os.getenv('CENSUS_API_KEY')
+    if not api_key:
+        return None
+
+    base_url = 'https://api.census.gov/data/2023/acs/acs5'
+
+    # Employment by industry - let's see reality
+    employment_variables = {
+        'C24010_001E': 'Total Employed',
+        'C24010_002E': 'Management, business, science, and arts',
+        'C24010_003E': 'Service occupations',
+        'C24010_004E': 'Sales and office occupations',
+        'C24010_005E': 'Natural resources, construction, maintenance',
+        'C24010_006E': 'Production, transportation, material moving'
+    }
+
+    params = {
+        'get': ','.join(employment_variables.keys()),
+        'for': 'zip code tabulation area:21076',
+        'key': api_key
+    }
+
+    try:
+        response = requests.get(base_url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        if not data or len(data) < 2:
+            return None
+
+        headers = data[0]
+        values = data[1]
+
+        results = {}
+        for i, header in enumerate(headers):
+            if header in employment_variables and i < len(values):
+                raw_value = values[i]
+                try:
+                    if raw_value in ['-666666666', '-888888888', '-999999999', None]:
+                        converted_value = None
+                    else:
+                        converted_value = int(raw_value)
+                except (ValueError, TypeError):
+                    converted_value = raw_value
+
+                results[header] = {
+                    'description': employment_variables[header],
+                    'value': converted_value
+                }
+
+        return results
+
+    except Exception as e:
+        print(f"ERROR: {e}")
+        return None
+
+def analyze_real_affordability(income_data):
+    """Calculate who can ACTUALLY afford housing based on real income distribution"""
+    if not income_data:
+        return None
+
+    # Real affordability calculation: 30% of income for housing
+    # $492,100 median home = ~$2,500/month mortgage + taxes/insurance = ~$3,000/month
+    # Need $120,000 income to afford comfortably
+
+    monthly_housing_cost = 3000  # Realistic estimate
+    required_annual_income = monthly_housing_cost * 12 / 0.30  # 30% rule
+
+    total_households = income_data.get('B19001_001E', {}).get('value')
+    if not total_households:
+        return None
+
+    can_afford = 0
+    cannot_afford = 0
+    income_breakdown = {}
+
+    # Calculate based on actual income distribution
+    income_brackets = [
+        ('B19001_002E', 'Less than $10,000', 10000),
+        ('B19001_003E', '$10,000 to $14,999', 14999),
+        ('B19001_004E', '$15,000 to $19,999', 19999),
+        ('B19001_005E', '$20,000 to $24,999', 24999),
+        ('B19001_006E', '$25,000 to $29,999', 29999),
+        ('B19001_007E', '$30,000 to $34,999', 34999),
+        ('B19001_008E', '$35,000 to $39,999', 39999),
+        ('B19001_009E', '$40,000 to $44,999', 44999),
+        ('B19001_010E', '$45,000 to $49,999', 49999),
+        ('B19001_011E', '$50,000 to $59,999', 59999),
+        ('B19001_012E', '$60,000 to $74,999', 74999),
+        ('B19001_013E', '$75,000 to $99,999', 99999),
+        ('B19001_014E', '$100,000 to $124,999', 124999),
+        ('B19001_015E', '$125,000 to $149,999', 149999),
+        ('B19001_016E', '$150,000 to $199,999', 199999),
+        ('B19001_017E', '$200,000 or more', 300000)  # Conservative estimate
+    ]
+
+    for var_id, description, max_income in income_brackets:
+        households = income_data.get(var_id, {}).get('value', 0) or 0
+
+        if households > 0:
+            income_breakdown[description] = {
+                'households': households,
+                'percentage': (households / total_households) * 100
+            }
+
+            if max_income >= required_annual_income:
+                can_afford += households
+            else:
+                cannot_afford += households
+
+    return {
+        'required_income': required_annual_income,
+        'can_afford': can_afford,
+        'cannot_afford': cannot_afford,
+        'can_afford_percentage': (can_afford / total_households) * 100,
+        'cannot_afford_percentage': (cannot_afford / total_households) * 100,
+        'income_breakdown': income_breakdown,
+        'total_households': total_households
+    }
+
+def main():
+    """Get real employment and income data"""
+    print("GETTING REAL EMPLOYMENT & INCOME DATA")
+    print("=" * 50)
+
+    print("\n1. Getting detailed income distribution...")
+    income_data = get_detailed_income_distribution()
+
+    print("\n2. Getting employment by industry...")
+    employment_data = get_employment_by_industry()
+
+    print("\n3. Calculating real affordability...")
+    affordability = analyze_real_affordability(income_data)
+
+    # Save results
+    results = {
+        'income_distribution': income_data,
+        'employment_by_industry': employment_data,
+        'affordability_analysis': affordability
+    }
+
+    os.makedirs('data', exist_ok=True)
+    with open('data/real_employment_income.json', 'w') as f:
+        json.dump(results, f, indent=2)
+
+    # Print summary
+    print("\n" + "=" * 50)
+    print("REAL DATA SUMMARY")
+    print("=" * 50)
+
+    if employment_data:
+        total_employed = employment_data.get('C24010_001E', {}).get('value')
+        if total_employed:
+            print(f"\nEMPLOYMENT BY OCCUPATION:")
+            for var_id, data in employment_data.items():
+                if var_id != 'C24010_001E' and data.get('value'):
+                    percentage = (data['value'] / total_employed) * 100
+                    print(f"  {data['description']}: {data['value']:,} ({percentage:.1f}%)")
+
+    if affordability:
+        print(f"\nHOUSING AFFORDABILITY (Real Calculation):")
+        print(f"  Required income for median home: ${affordability['required_income']:,.0f}")
+        print(f"  Households who CAN afford: {affordability['can_afford_percentage']:.1f}%")
+        print(f"  Households who CANNOT afford: {affordability['cannot_afford_percentage']:.1f}%")
+
+        print(f"\nINCOME DISTRIBUTION (Real Data):")
+        for description, data in affordability['income_breakdown'].items():
+            if data['households'] > 0:
+                print(f"  {description}: {data['households']} households ({data['percentage']:.1f}%)")
+
+    print(f"\nSaved to: data/real_employment_income.json")
+    print("\nNow we know who actually lives here and what they can afford.")
+
+if __name__ == "__main__":
+    main()

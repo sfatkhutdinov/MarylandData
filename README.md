@@ -152,6 +152,48 @@ This project leverages Model Context Protocol (MCP) servers for real-time data v
 
 ---
 
+  ## Verified Data Ingestion (No-Hallucination)
+
+  To incorporate current economic context (e.g., Aug 2025 federal job losses) without speculation:
+
+  1) Ingest official release into the repo (archived under `data/raw/`):
+	  - Source: Maryland Department of Labor news release – August 2025
+	  - Saved as: `data/raw/mlraug2025.md` (includes URL and retrieval timestamp)
+
+  2) Parse to structured JSON with provenance:
+	  - Run: scripts/ingest_md_labor_release.py
+	  - Output: `data/processed/mlraug2025.json` containing highlights and sector changes
+
+  3) Use only persisted sources in analysis/visuals:
+	  - `real_hanover_analysis.py` reads processed JSON to produce `data/maryland_jobs_shock_aug2025.png`
+
+  Guardrails:
+  - If the raw source file is missing, the ingestion script fails hard.
+  - If parsing can’t locate expected phrases, it errors and blocks downstream steps.
+  - Charts display source URL and retrieval timestamp for transparency.
+
+  This ensures all post–training-cutoff facts are grounded in archived sources, not model memory.
+
+  ---
+
+  ## Runner Guardrails
+
+  The analysis runner (`real_hanover_analysis.py`) enforces fail-fast checks to prevent hallucinations:
+  - Required files:
+    - `data/hanover_real_data.json`
+    - `data/real_employment_income.json`
+    - `data/raw/mlraug2025.md`
+    - `data/processed/mlraug2025.json`
+  - If any are missing, the script prints which files are missing and exits with a non-zero code.
+  - How to fix: run `python scripts/ingest_md_labor_release.py` (after activating your virtualenv) to populate the MD Labor artifacts.
+
+  Outputs include:
+  - `data/maryland_jobs_shock_aug2025.png` visualizing the verified statewide jobs and federal losses context.
+
+  Together with the ingestion step, this guarantees analysis stays tied to persisted sources and timestamps.
+
+  ---
+
 **Last Updated:** September 21, 2025
 **Data Sources Verified:** September 2025
 **Next Review:** March 2026

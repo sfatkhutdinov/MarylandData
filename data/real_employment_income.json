@@ -1,0 +1,172 @@
+{
+  "income_distribution": {
+    "B19001_001E": {
+      "description": "Total Households",
+      "value": 9297
+    },
+    "B19001_002E": {
+      "description": "Less than $10,000",
+      "value": 114
+    },
+    "B19001_003E": {
+      "description": "$10,000 to $14,999",
+      "value": 38
+    },
+    "B19001_004E": {
+      "description": "$15,000 to $19,999",
+      "value": 81
+    },
+    "B19001_005E": {
+      "description": "$20,000 to $24,999",
+      "value": 75
+    },
+    "B19001_006E": {
+      "description": "$25,000 to $29,999",
+      "value": 62
+    },
+    "B19001_007E": {
+      "description": "$30,000 to $34,999",
+      "value": 133
+    },
+    "B19001_008E": {
+      "description": "$35,000 to $39,999",
+      "value": 102
+    },
+    "B19001_009E": {
+      "description": "$40,000 to $44,999",
+      "value": 20
+    },
+    "B19001_010E": {
+      "description": "$45,000 to $49,999",
+      "value": 138
+    },
+    "B19001_011E": {
+      "description": "$50,000 to $59,999",
+      "value": 298
+    },
+    "B19001_012E": {
+      "description": "$60,000 to $74,999",
+      "value": 385
+    },
+    "B19001_013E": {
+      "description": "$75,000 to $99,999",
+      "value": 1126
+    },
+    "B19001_014E": {
+      "description": "$100,000 to $124,999",
+      "value": 1249
+    },
+    "B19001_015E": {
+      "description": "$125,000 to $149,999",
+      "value": 1207
+    },
+    "B19001_016E": {
+      "description": "$150,000 to $199,999",
+      "value": 1861
+    },
+    "B19001_017E": {
+      "description": "$200,000 or more",
+      "value": 2408
+    }
+  },
+  "employment_by_industry": {
+    "C24010_001E": {
+      "description": "Total Employed",
+      "value": 13731
+    },
+    "C24010_002E": {
+      "description": "Management, business, science, and arts",
+      "value": 7346
+    },
+    "C24010_003E": {
+      "description": "Service occupations",
+      "value": 4500
+    },
+    "C24010_004E": {
+      "description": "Sales and office occupations",
+      "value": 1683
+    },
+    "C24010_005E": {
+      "description": "Natural resources, construction, maintenance",
+      "value": 1321
+    },
+    "C24010_006E": {
+      "description": "Production, transportation, material moving",
+      "value": 362
+    }
+  },
+  "affordability_analysis": {
+    "required_income": 120000.0,
+    "can_afford": 6725,
+    "cannot_afford": 2572,
+    "can_afford_percentage": 72.3351618801764,
+    "cannot_afford_percentage": 27.6648381198236,
+    "income_breakdown": {
+      "Less than $10,000": {
+        "households": 114,
+        "percentage": 1.2262020006453695
+      },
+      "$10,000 to $14,999": {
+        "households": 38,
+        "percentage": 0.4087340002151231
+      },
+      "$15,000 to $19,999": {
+        "households": 81,
+        "percentage": 0.8712487899322363
+      },
+      "$20,000 to $24,999": {
+        "households": 75,
+        "percentage": 0.8067118425298484
+      },
+      "$25,000 to $29,999": {
+        "households": 62,
+        "percentage": 0.6668817898246746
+      },
+      "$30,000 to $34,999": {
+        "households": 133,
+        "percentage": 1.430569000752931
+      },
+      "$35,000 to $39,999": {
+        "households": 102,
+        "percentage": 1.0971281058405937
+      },
+      "$40,000 to $44,999": {
+        "households": 20,
+        "percentage": 0.21512315800795956
+      },
+      "$45,000 to $49,999": {
+        "households": 138,
+        "percentage": 1.484349790254921
+      },
+      "$50,000 to $59,999": {
+        "households": 298,
+        "percentage": 3.2053350543185974
+      },
+      "$60,000 to $74,999": {
+        "households": 385,
+        "percentage": 4.141120791653222
+      },
+      "$75,000 to $99,999": {
+        "households": 1126,
+        "percentage": 12.111433795848123
+      },
+      "$100,000 to $124,999": {
+        "households": 1249,
+        "percentage": 13.434441217597074
+      },
+      "$125,000 to $149,999": {
+        "households": 1207,
+        "percentage": 12.982682585780358
+      },
+      "$150,000 to $199,999": {
+        "households": 1861,
+        "percentage": 20.017209852640637
+      },
+      "$200,000 or more": {
+        "households": 2408,
+        "percentage": 25.900828224158328
+      }
+    },
+    "total_households": 9297
+  }
+}

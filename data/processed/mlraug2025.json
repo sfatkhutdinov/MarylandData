@@ -1,0 +1,52 @@
+{
+  "source_url": "https://www.labor.maryland.gov/whatsnews/mlraug2025.shtml",
+  "retrieved_at": "2025-09-21T23:28:38.843070+00:00",
+  "period": "2025-08",
+  "highlights": {
+    "jobs_change_total": 3200,
+    "federal_jobs_change": 2500,
+    "federal_jobs_change_ytd": 15100,
+    "unemployment_rate": 3.6,
+    "national_unemployment_rate": 4.3
+  },
+  "top_gainers": [
+    {
+      "sector": "Construction",
+      "jobs_change": 2700
+    },
+    {
+      "sector": "Accommodation and Food Services",
+      "jobs_change": 1400
+    },
+    {
+      "sector": "Professional, Scientific, and Technical Services",
+      "jobs_change": 600
+    },
+    {
+      "sector": "and Real Estate and Rental and Leasing",
+      "jobs_change": 300
+    }
+  ],
+  "top_losers": [
+    {
+      "sector": "Administrative and Support and Waste Management and Remediation Services",
+      "jobs_change": -1900
+    },
+    {
+      "sector": "Other Services",
+      "jobs_change": -1700
+    },
+    {
+      "sector": "Government",
+      "jobs_change": -1200
+    },
+    {
+      "sector": "Health Care and Social Assistance",
+      "jobs_change": -1100
+    },
+    {
+      "sector": "and Manufacturing",
+      "jobs_change": -1100
+    }
+  ]
+}
