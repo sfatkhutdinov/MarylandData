@@ -4,123 +4,124 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a community improvement analysis project for Hanover, MD (ZIP 21076) undergoing a methodological rebuild. The `.archive/` directory contains original analysis with fundamental flaws that must not be replicated.
+This is a **streamlined community improvement analysis** for Hanover, MD (ZIP 21076). The project has been cleaned up to focus on a single authoritative README containing evidence-based recommendations for human-centered community development.
+
+**Key Changes:** All working directories have been archived. The project now centers on the comprehensive analysis in `README.md` with MCP-enhanced data verification.
 
 ## Development Environment
 
-- **Language**: Python 3.9+
+- **Language**: Python 3.9+ (for any data collection scripts)
 - **Virtual Environment**: `.venv/` (activate with `source .venv/bin/activate`)
-- **Dependencies**: Install as needed via pip (no requirements.txt exists)
-- **Configuration**: Copy `.env.template` to `.env` and add API keys
+- **Dependencies**: `pip install -r requirements.txt` (if needed for data collection)
+- **Configuration**: Copy `.env.template` to `.env` and add API keys for data verification
 
 ### Essential API Keys
 
 ```bash
-# Required for demographic data
+# Required for demographic verification
 CENSUS_API_KEY=your_key_here  # Get at: https://api.census.gov/data/key_signup.html
 
-# Optional but recommended for employment data
+# Optional for employment data verification
 BLS_API_KEY=your_key_here     # Register at: https://data.bls.gov/registrationEngine/
 ```
 
-### Common Commands
+### Project Commands
 
 ```bash
-# Activate environment and install core packages
+# Setup (if data collection needed)
 source .venv/bin/activate
-pip install pandas numpy matplotlib seaborn requests jupyter
+pip install -r requirements.txt
 
-# Run data collection scripts
-python scripts/census_data_collector.py
-python scripts/maryland_transportation_costs.py
+# Primary deliverable is README.md - no regular scripts to run
+# All analysis results are documented in the main README
 
-# Create visualizations
-python scripts/hanover_demographics_viz.py
+# MCP server verification (documented in .mcp.json)
+# Use MCP tools to verify claims in README.md against authoritative sources
 ```
 
-## Data Architecture
+## Project Architecture
 
-### Geographic Scope
-- **Primary Study Area**: ZIP Code 21076 (Hanover, MD)
-- **Population**: ~28,000 (verify via Census API)
-- **Counties**: Howard County (west), Anne Arundel County (east)
+### Current Structure (Streamlined)
+- **`.archive/`**: All previous working files, scripts, and directories
+- **`README.md`**: **PRIMARY DELIVERABLE** - Complete community improvement analysis
+- **`.mcp.json`**: MCP server configuration for data verification
+- **`CLAUDE.md`**: This guidance file
+- **`.env.template`**: Environment configuration template
+- **`requirements.txt`**: Python dependencies (if needed)
 
-### Key Data Sources
+### Key Insights Already Documented
+
+The README.md contains a complete evidence-based analysis including:
+
+1. **Demographics**: Population 22,299-28,089, $143,409 median income, 63.5% STEM educated
+2. **Growth Challenge**: 31.6% population increase by 2025, 2,627 housing unit deficit by 2030
+3. **Four Priority Areas**: Housing, Transportation, Community Services, Economic Equity
+4. **Implementation Framework**: Four-phase approach with specific timelines
+5. **Data Verification**: Multi-source verification documented with methodological transparency
+
+## MCP Integration for Data Verification
+
+The project uses Model Context Protocol servers (`.mcp.json`) to maintain data integrity:
+
+### Core Verification Servers
+- **wikipedia**: Verify demographic facts and community context
+- **datagov**: Cross-reference federal datasets
+- **web-search**: Check current developments and policy updates
+- **memory**: Track research findings and contradictions
+- **sequential-thinking**: Plan complex verification workflows
+- **opengov**: Access Maryland state data directly
+
+### MCP Usage for README Maintenance
+
+**When updating README.md claims:**
+1. **Verify Demographics**: Use Wikipedia and web search to confirm population/income data
+2. **Check Current Projects**: Use web search for infrastructure project status updates
+3. **Cross-Reference Data**: Use opengov and datagov for official statistics
+4. **Document Sources**: Use memory to track verification steps and data quality
+5. **Plan Updates**: Use sequential-thinking for systematic analysis updates
+
+### Example Verification Workflow
 ```python
-DATA_SOURCES = {
-    'census_acs5': 'https://api.census.gov/data/2023/acs/acs5',
-    'maryland_open_data': 'https://opendata.maryland.gov',
-    'howard_county_gis': 'https://data.howardcountymd.gov',
-    'anne_arundel_open': 'https://opendata.aacounty.org',
-    'bls_employment': 'https://api.bls.gov/publicAPI/v2/timeseries/data/'
-}
-
-# Essential ACS variables for ZIP 21076
-CORE_VARIABLES = {
-    'B01003_001E': 'Total population',
-    'B19013_001E': 'Median household income',
-    'B08301_010E': 'Public transportation commuters',
-    'B08303_001E': 'Average commute time'
-}
+# Before updating any demographic claim in README.md:
+# 1. Use web search MCP to check for recent Census releases
+# 2. Use Wikipedia MCP to verify community boundaries/characteristics
+# 3. Use opengov MCP to check Maryland state data for updates
+# 4. Use memory MCP to document all verification steps
+# 5. Update README.md only with multi-source verified data
 ```
 
-### Data Collection Patterns
-```python
-class HanoverDataCollector:
-    def __init__(self):
-        self.hanover_geo = {
-            'zip_code': '21076',
-            'zcta_code': '21076',
-            'state_fips': '24',  # Maryland
-            'counties': {
-                'howard': {'state': '24', 'county': '027'},
-                'anne_arundel': {'state': '24', 'county': '003'}
-            }
-        }
+## Critical Guidelines
 
-    def get_acs_data(self, variables, geography='zip code tabulation area:21076'):
-        # Use Census API with proper error handling
-        # Always document data collection timestamps
-        # Include margin of error calculations
-```
+1. **README.md is the Primary Deliverable**: All analysis, recommendations, and findings are in this single document
+2. **Evidence-Based Claims Only**: Every statistic must be verifiable through MCP servers
+3. **Anti-Hallucination Protocol**: Use minimum 2 authoritative sources for all claims
+4. **Current Context**: Always incorporate 2024-2025 policy and project updates
+5. **Community-Centered**: Focus on human-centered development that serves all residents
+6. **Methodological Transparency**: Document all data sources and verification steps
 
-## Visualization Standards
+## Archive Reference
 
-```python
-# Professional styling setup
-import matplotlib.pyplot as plt
-import seaborn as sns
+Previous work is preserved in `.archive/` including:
+- Original data collection scripts (`scripts/`)
+- Raw and processed datasets (`data/`)
+- Exploratory analysis (`analysis/`)
+- Research materials (`research/`, `docs/`)
+- Planning documents (`PLAN.md`, `TODO.md`)
 
-plt.style.use('seaborn-v0_8-whitegrid')
-sns.set_palette("Set2")  # Colorblind-friendly
-
-# Required elements for all charts:
-# 1. Error bars/confidence intervals
-# 2. Data source attribution
-# 3. Collection date/methodology notes
-# 4. Conservative estimates with uncertainty ranges
-```
-
-## Critical Methodological Rules
-
-1. **Geographic Precision**: ZIP code 21076-specific data only, never county averages
-2. **No Hardcoded Values**: All data must come from official APIs with timestamps
-3. **Employment Verification**: Cross-reference BLS, OES, and OPM data for all employment claims
-4. **Conservative Estimates**: Include uncertainty ranges and acknowledge limitations
-5. **Source Documentation**: Every data point requires collection methodology and timestamp
-6. **Peer Review Grounding**: All analytical methods must reference published research
-
-## Architecture Notes
-
-- **data/raw/**: Unmodified API responses with collection metadata
-- **data/processed/**: Cleaned datasets with transformation documentation
-- **analysis/**: Statistical tests with uncertainty quantification
-- **scripts/**: Automated data collection with error handling
-- **visuals/**: Professional charts with source attribution and error bars
+**Important**: Use archived materials for reference only. Do not replicate methodological approaches from `.archive/` - the current streamlined approach in README.md represents the refined analysis.
 
 ## Development Priorities
 
-1. **Census API Implementation**: Demographic data collection for ZIP 21076
-2. **Maryland DOT Data**: Construction cost benchmarks from state sources
-3. **Employment Analysis**: BLS occupational statistics and federal employment data
-4. **Literature Review**: Peer-reviewed community impact studies for methodology validation
+1. **README.md Maintenance**: Keep the community improvement analysis current with latest data
+2. **Data Verification**: Regularly verify claims using MCP servers
+3. **Policy Updates**: Monitor for new infrastructure projects, zoning changes, demographic updates
+4. **Community Feedback**: Update recommendations based on implementation progress
+
+## Success Metrics
+
+- All demographic claims in README.md verified against 2+ authoritative sources
+- Implementation framework reflects current 2024-2025 policy context
+- Recommendations are actionable and tied to specific data sources
+- Analysis serves as replicable template for similar suburban communities
+
+This streamlined approach prioritizes a single, authoritative analysis document over scattered working files, while maintaining rigorous data verification through MCP integration.

@@ -1,0 +1,40 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "opengov": {
+      "command": "npx",
+      "args": ["-y", "opengov-mcp-server@latest"],
+      "env": {
+        "DATA_PORTAL_URL": "https://opendata.maryland.gov"
+      }
+    },
+    "wikipedia": {
+      "command": "npx",
+      "args": ["-y", "wikipedia-mcp"],
+      "description": "Access to authoritative Wikipedia content for fact-checking and reference"
+    },
+    "datagov": {
+      "command": "npx",
+      "args": ["-y", "datagov-mcp-server"],
+      "description": "Access to federal government datasets via Data.gov"
+    },
+    "web-search": {
+      "command": "npx",
+      "args": ["-y", "web-search-mcp-server"],
+      "description": "Real-time web search for current information and fact verification"
+    }
+  }
+}
