@@ -1,0 +1,262 @@
+{
+  "executive_summary": {
+    "total_infrastructure_cost": 9870000,
+    "year_1_minimum_budget": 2250000,
+    "primary_funding_sources": [
+      "Howard County Capital Budget ($418M annually)",
+      "Federal DOT grants ($1.5B annually available)",
+      "Anne Arundel CDBG ($307K annually)",
+      "Maryland State Revitalization ($129M annually)"
+    ],
+    "key_implementation_steps": [
+      "Form Community Land Trust (3-6 months)",
+      "Apply to county capital budget processes (February-June)",
+      "Submit federal transportation grants (rolling deadlines)",
+      "Organize community for public hearings"
+    ]
+  },
+  "detailed_costs": {
+    "infrastructure": {
+      "sidewalk_completion": 2250000,
+      "protected_bike_lanes": 5000000,
+      "bus_shelters": 120000,
+      "traffic_signals": 1500000,
+      "street_lighting": 1000000,
+      "total_basic_infrastructure": 9870000
+    },
+    "community_services": {
+      "mobile_health_clinic_annual": 500000,
+      "community_health_center_startup": {
+        "facility_renovation": 2000000,
+        "equipment": 500000,
+        "working_capital": 300000,
+        "total": 2800000
+      },
+      "community_health_center_annual": 1500000,
+      "community_land_trust_startup": {
+        "legal_formation": 25000,
+        "staff_year1": 150000,
+        "community_organizing": 75000,
+        "total": 250000
+      },
+      "clt_housing_acquisition": {
+        "average_home_price": 492100,
+        "homes_year1": 10,
+        "total_year1": 4921000
+      }
+    }
+  },
+  "funding_strategy": {
+    "year_1_immediate_needs": {
+      "sidewalk_priority_areas": {
+        "cost": 1500000,
+        "funding_sources": [
+          "Howard County Capital Budget (GO bonds)",
+          "Anne Arundel CDBG allocation",
+          "Apply for DOT Active Transportation grants"
+        ],
+        "implementation_steps": [
+          "Submit project to both county capital budget processes",
+          "Apply for federal transportation grants by deadlines",
+          "Organize community support for county council presentations"
+        ]
+      },
+      "mobile_health_clinic": {
+        "cost": 500000,
+        "funding_sources": [
+          "HRSA mobile health unit grants",
+          "Howard County Health Department partnership",
+          "Community fundraising and foundation grants"
+        ],
+        "implementation_steps": [
+          "Partner with existing FQHC to sponsor mobile unit",
+          "Apply for HRSA funding through established health center",
+          "Organize community health needs assessment"
+        ]
+      },
+      "community_land_trust_formation": {
+        "cost": 250000,
+        "funding_sources": [
+          "Foundation grants (Ford, Surdna, etc.)",
+          "Maryland State Revitalization Program",
+          "Community fundraising and membership dues"
+        ],
+        "implementation_steps": [
+          "File 501(c)(3) incorporation paperwork",
+          "Recruit board with 1/3 community residents",
+          "Apply for Community Land Trust Network membership",
+          "Begin community organizing and education"
+        ]
+      }
+    },
+    "year_2_3_expansion": {
+      "protected_bike_lanes": {
+        "cost": 5000000,
+        "funding_sources": [
+          "DOT RAISE grant application",
+          "Maryland State transportation funds",
+          "Combined county capital programs"
+        ]
+      },
+      "community_health_center": {
+        "cost": 2800000,
+        "funding_sources": [
+          "HRSA Health Center New Access Point grant",
+          "CDBG funding from both counties",
+          "Maryland state health facility grants"
+        ]
+      },
+      "clt_housing_acquisition": {
+        "cost": 4921000,
+        "funding_sources": [
+          "Maryland Housing Trust Fund",
+          "HOME Investment Partnership funds",
+          "Community investment and loans"
+        ]
+      }
+    },
+    "year_4_5_completion": {
+      "comprehensive_pedestrian_safety": {
+        "cost": 15000000,
+        "funding_sources": [
+          "DOT Safe Streets and Roads for All",
+          "Combined state and county funding",
+          "Community infrastructure bonds"
+        ]
+      }
+    }
+  },
+  "organizing_tools": {
+    "legal_mechanisms": {
+      "community_land_trust_formation": {
+        "requirements": "File as 501(c)(3) nonprofit in Maryland",
+        "governing_law": "Maryland Corporations and Associations Code",
+        "timeline": "3-6 months for incorporation",
+        "resources": "Community Land Trust Network toolkit"
+      },
+      "tenant_organizing": {
+        "legal_protections": "Maryland tenant rights laws",
+        "organizing_support": "Baltimore Renters United, Housing Justice Coalition",
+        "tools": "Rent strikes, collective bargaining, tenant unions"
+      },
+      "zoning_advocacy": {
+        "process": "County council public hearings",
+        "timeline": "Planning board review, then council vote",
+        "strategy": "Organize residents for public comment"
+      }
+    },
+    "funding_advocacy": {
+      "participatory_budgeting": {
+        "status": "Not currently implemented in either county",
+        "strategy": "Advocate for pilot program in county budget",
+        "examples": "Baltimore City has participatory budgeting"
+      },
+      "capital_budget_advocacy": {
+        "howard_county_timeline": "February-June annual process",
+        "anne_arundel_timeline": "May-June annual process",
+        "strategy": "Organize residents for public hearings"
+      },
+      "grant_writing_capacity": {
+        "need": "Community grant writing collective",
+        "resources": "Foundation Center, Maryland Nonprofits"
+      }
+    },
+    "direct_action_tools": {
+      "community_meetings": {
+        "legal_protection": "First Amendment assembly rights",
+        "venues": "Community centers, libraries, schools",
+        "strategy": "Build attendance through door-to-door outreach"
+      },
+      "petition_drives": {
+        "uses": "Demonstrate community support for proposals",
+        "legal_requirements": "None for advocacy petitions",
+        "strategy": "Collect signatures at community events"
+      },
+      "public_comment": {
+        "county_council_meetings": "Regular opportunities both counties",
+        "planning_board_hearings": "Required for development review",
+        "strategy": "Coordinate community speakers"
+      }
+    },
+    "electoral_strategy": {
+      "county_council_elections": {
+        "howard_county": "5 districts, 4-year terms",
+        "anne_arundel": "7 districts, 4-year terms",
+        "strategy": "Candidate recruitment and endorsement"
+      },
+      "voter_registration": {
+        "requirement": "Maryland voter registration",
+        "strategy": "Community voter registration drives",
+        "resources": "League of Women Voters assistance"
+      }
+    }
+  },
+  "implementation_timeline": {
+    "months_1_3": {
+      "community_organizing": [
+        "Form community organizing committee",
+        "Conduct door-to-door outreach in Hanover",
+        "Host first community meeting (100+ residents)",
+        "Create communication network (email list, social media)"
+      ],
+      "legal_formation": [
+        "File 501(c)(3) paperwork for Community Land Trust",
+        "Recruit CLT board with community representation",
+        "Research Maryland affordable housing laws"
+      ],
+      "funding_research": [
+        "Complete grant opportunity database",
+        "Contact Howard County CDBG coordinator",
+        "Research foundation funding for CLT formation"
+      ]
+    },
+    "months_4_6": {
+      "advocacy_campaigns": [
+        "Present sidewalk proposal to Howard County capital budget process",
+        "Submit CDBG application to Anne Arundel County",
+        "Organize residents for county council public hearings"
+      ],
+      "grant_applications": [
+        "Submit DOT Active Transportation grant application",
+        "Apply for foundation grants for CLT startup",
+        "Partner with existing FQHC for mobile health clinic"
+      ],
+      "community_building": [
+        "Host monthly community meetings",
+        "Form working committees (housing, health, transportation)",
+        "Begin community needs survey"
+      ]
+    },
+    "months_7_12": {
+      "infrastructure_wins": [
+        "Secure funding for priority sidewalk segments",
+        "Begin construction on funded projects",
+        "Organize community celebration of wins"
+      ],
+      "service_development": [
+        "Launch mobile health clinic pilot",
+        "Complete CLT community education program",
+        "Begin tenant organizing in rental properties"
+      ],
+      "capacity_building": [
+        "Train community members in grant writing",
+        "Develop leadership development program",
+        "Create community land trust membership base"
+      ]
+    },
+    "year_2": {
+      "expansion": [
+        "Submit larger infrastructure grant applications",
+        "Begin FQHC designation process",
+        "Acquire first properties for community land trust"
+      ]
+    }
+  },
+  "next_steps": [
+    "Schedule initial community meeting within 30 days",
+    "Contact Howard County CDBG coordinator",
+    "Begin 501(c)(3) incorporation process for CLT",
+    "Research upcoming grant deadlines",
+    "Connect with existing tenant and housing justice organizations"
+  ]
+}

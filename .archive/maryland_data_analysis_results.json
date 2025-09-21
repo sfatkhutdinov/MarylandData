@@ -1,0 +1,94 @@
+{
+  "portal_overview": {
+    "total_datasets": 3668,
+    "total_categories": 26,
+    "total_view_types": 10,
+    "total_domains": 4,
+    "analysis_date": "2025-09-21 03:24:52"
+  },
+  "categories": {
+    "categories": [
+      "Administrative",
+      "Agriculture",
+      "Biota",
+      "Boundaries",
+      "Budget",
+      "Business and Economy",
+      "Demographic",
+      "Education",
+      "Elevation",
+      "Energy and Environment",
+      "Geoscientific",
+      "Government",
+      "Health and Human Services",
+      "Historic",
+      "Housing",
+      "Hydrology",
+      "Imagery",
+      "Location",
+      "Military",
+      "Planning",
+      "Public Safety",
+      "Society",
+      "Structure",
+      "Transportation",
+      "Utility",
+      "Weather"
+    ],
+    "category_count": 26,
+    "primary_categories": [
+      "Energy and Environment",
+      "Administrative",
+      "Transportation",
+      "Health and Human Services",
+      "Planning",
+      "Public Safety"
+    ]
+  },
+  "data_quality": {
+    "recent_updates": "September 21, 2025",
+    "update_frequency": "Daily updates observed",
+    "real_time_datasets": [
+      "Power Outages",
+      "Road Closures",
+      "MD iMAP Services"
+    ]
+  },
+  "usage_patterns": {
+    "highest_views": [
+      {
+        "name": "MD iMAP GIS Services - Service Request Counts",
+        "views": 6232
+      },
+      {
+        "name": "Power Outages - Zipcode",
+        "views": 5948
+      },
+      {
+        "name": "Maryland Road Closures",
+        "views": 5674
+      },
+      {
+        "name": "Power Outages - County",
+        "views": 4807
+      },
+      {
+        "name": "MD iMAP Request Counts by Service",
+        "views": 4714
+      }
+    ]
+  },
+  "source_agencies": {
+    "major_contributors": [
+      "Maryland Department of the Environment (MDE)",
+      "Maryland Department of Transportation (MDOT)",
+      "MD iMAP (Geographic Information System)",
+      "Maryland Emergency Management Agency (MEMA)"
+    ],
+    "mde_divisions": [
+      "Air and Radiation Administration (ARA)",
+      "Land Management Administration (LMA)",
+      "Water and Science Administration (WSA)"
+    ]
+  }
+}
