@@ -42,7 +42,6 @@ pip install -r requirements.txt
 ## Project Architecture
 
 ### Current Structure (Streamlined)
-- **`.archive/`**: All previous working files, scripts, and directories
 - **`README.md`**: **PRIMARY DELIVERABLE** - Complete community improvement analysis
 - **`.mcp.json`**: MCP server configuration for data verification
 - **`CLAUDE.md`**: This guidance file
@@ -99,16 +98,11 @@ The project uses Model Context Protocol servers (`.mcp.json`) to maintain data i
 5. **Community-Centered**: Focus on human-centered development that serves all residents
 6. **Methodological Transparency**: Document all data sources and verification steps
 
-## Archive Reference
+## Methodological Note
 
-Previous work is preserved in `.archive/` including:
-- Original data collection scripts (`scripts/`)
-- Raw and processed datasets (`data/`)
-- Exploratory analysis (`analysis/`)
-- Research materials (`research/`, `docs/`)
-- Planning documents (`PLAN.md`, `TODO.md`)
+This project represents a **clean restart** with refined methodology. Previous iterations contained fundamental flaws and have been removed to prevent contamination of the evidence-based approach documented in README.md.
 
-**Important**: Use archived materials for reference only. Do not replicate methodological approaches from `.archive/` - the current streamlined approach in README.md represents the refined analysis.
+**Historical Context**: Available through git history if needed for research purposes, but current analysis stands independently on verified authoritative data sources.
 
 ## Development Priorities
 
