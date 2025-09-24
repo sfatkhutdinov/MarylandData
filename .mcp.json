@@ -28,12 +28,12 @@
     },
     "datagov": {
       "command": "npx",
-      "args": ["-y", "datagov-mcp-server"],
+      "args": ["-y", "@melaodoidao/datagov-mcp-server"],
       "description": "Access to federal government datasets via Data.gov"
     },
     "web-search": {
       "command": "npx",
-      "args": ["-y", "web-search-mcp-server"],
+      "args": ["-y", "@brave/brave-search-mcp-server"],
       "description": "Real-time web search for current information and fact verification"
     }
   }

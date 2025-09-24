@@ -140,16 +140,50 @@ def get_employment_by_industry():
         print(f"ERROR: {e}")
         return None
 
-def analyze_real_affordability(income_data):
-    """Calculate who can ACTUALLY afford housing based on real income distribution"""
+def analyze_real_affordability(income_data, baseline_metrics_path: str = os.path.join('data', 'hanover_real_data.json')):
+    """Calculate affordability using real income distribution and dynamic housing costs.
+
+    Derives required annual income using the 30% rule based on:
+    - ACS median gross rent (B25064_001E) if available (rent scenario)
+    - Mortgage affordability for median home value (baseline metrics) using a simple heuristic:
+      assume PITI ~ 0.006 of home value per month (approx 7.2% annual of value / 12) if explicit
+      mortgage terms are not modeled. This remains a heuristic and is documented.
+    """
     if not income_data:
         return None
 
-    # Real affordability calculation: 30% of income for housing
-    # $492,100 median home = ~$2,500/month mortgage + taxes/insurance = ~$3,000/month
-    # Need $120,000 income to afford comfortably
+    median_home_value = None
+    median_gross_rent = None
+    if os.path.exists(baseline_metrics_path):
+        try:
+            with open(baseline_metrics_path, 'r') as f:
+                baseline = json.load(f)
+                bmetrics = baseline.get('calculated_metrics', {})
+                median_home_value = bmetrics.get('median_home_value')
+                median_gross_rent = bmetrics.get('median_gross_rent')
+        except Exception:
+            pass
 
-    monthly_housing_cost = 3000  # Realistic estimate
+    # Determine monthly housing cost proxies
+    monthly_rent = median_gross_rent if isinstance(median_gross_rent, (int, float)) else None
+    monthly_piti = None
+    if isinstance(median_home_value, (int, float)):
+        # Heuristic: monthly PITI ~ 0.006 * home value (documented approximation)
+        monthly_piti = 0.006 * median_home_value
+
+    # Choose the larger of rent vs. mortgage proxy to set a conservative threshold
+    monthly_housing_cost = None
+    if monthly_rent and monthly_piti:
+        monthly_housing_cost = max(monthly_rent, monthly_piti)
+    elif monthly_rent:
+        monthly_housing_cost = monthly_rent
+    elif monthly_piti:
+        monthly_housing_cost = monthly_piti
+
+    # Fallback if neither available (should not happen once baseline is generated)
+    if monthly_housing_cost is None:
+        return None
+
     required_annual_income = monthly_housing_cost * 12 / 0.30  # 30% rule
 
     total_households = income_data.get('B19001_001E', {}).get('value')
@@ -201,7 +235,13 @@ def analyze_real_affordability(income_data):
         'can_afford_percentage': (can_afford / total_households) * 100,
         'cannot_afford_percentage': (cannot_afford / total_households) * 100,
         'income_breakdown': income_breakdown,
-        'total_households': total_households
+        'total_households': total_households,
+        'provenance': {
+            'method': '30% income rule using ACS median gross rent and/or median home value PITI heuristic',
+            'median_home_value_used': median_home_value,
+            'median_gross_rent_used': median_gross_rent,
+            'baseline_metrics_path': baseline_metrics_path
+        }
     }
 
 def main():

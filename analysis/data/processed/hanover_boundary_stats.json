@@ -1,0 +1,12 @@
+{
+  "zcta": "21076",
+  "crs": "EPSG:4326",
+  "projected_crs": "EPSG:26985",
+  "area_sq_km": 34.056715749290305,
+  "centroid_lon": -76.7223886208611,
+  "centroid_lat": 39.16854359243162,
+  "source": "Census TIGERweb ZCTA (PUMA_TAD_TAZ_UGA_ZCTA/11)",
+  "tigerweb_request_url": null,
+  "retrieved_at": "2025-09-22T04:32:32.606071+00:00",
+  "fetched_this_run": false
+}

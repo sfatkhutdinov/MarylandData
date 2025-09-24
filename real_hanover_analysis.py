@@ -43,7 +43,7 @@ def load_md_labor_release():
     with open(path, 'r') as f:
         return json.load(f)
 
-def create_who_actually_lives_here_chart(detailed_data):
+def create_who_actually_lives_here_chart(detailed_data, baseline_metrics):
     """Show who actually lives in Hanover - not assumptions"""
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
 
@@ -91,12 +91,16 @@ def create_who_actually_lives_here_chart(detailed_data):
     # Chart 2: Income Reality vs Housing Costs
     affordability = detailed_data['affordability_analysis']
 
-    categories = ['Can Afford\nMedian Home\n($492K)', 'Cannot Afford\nMedian Home\n($492K)']
+    median_home_value = baseline_metrics.get('median_home_value')
+    home_label = f"Median Home\n(USD {median_home_value:,.0f})" if isinstance(median_home_value, (int, float)) else 'Median Home'
+    categories = [f'Can Afford\n{home_label}', f'Cannot Afford\n{home_label}']
     afford_values = [affordability['can_afford_percentage'], affordability['cannot_afford_percentage']]
     afford_colors = [COLORS['comfortable'], COLORS['struggling']]
 
     bars = ax2.bar(categories, afford_values, color=afford_colors, alpha=0.8)
-    ax2.set_title('HOUSING AFFORDABILITY REALITY\n2,762 Households Priced Out',
+    priced_out = affordability.get('cannot_afford')
+    priced_out_label = f"{priced_out:,} Households Priced Out" if isinstance(priced_out, int) else "Housing Affordability Reality"
+    ax2.set_title(f'HOUSING AFFORDABILITY REALITY\n{priced_out_label}',
                   fontsize=16, fontweight='bold')
     ax2.set_ylabel('Percentage of Households')
     ax2.grid(True, alpha=0.3)
@@ -115,7 +119,7 @@ def create_who_actually_lives_here_chart(detailed_data):
     plt.close()
     print("Created: who_actually_lives_here.png")
 
-def create_service_worker_reality_chart(detailed_data):
+def create_service_worker_reality_chart(detailed_data, baseline_metrics):
     """Focus on the 1/3 of workers in service jobs"""
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 12))
 
@@ -154,7 +158,7 @@ def create_service_worker_reality_chart(detailed_data):
     # Calculate affordable rent at different income levels
     incomes = [30000, 40000, 50000, 60000, 70000]
     affordable_rent = [income * 0.30 / 12 for income in incomes]  # 30% rule
-    market_rent = 2337  # From our data
+    market_rent = baseline_metrics.get('median_gross_rent') or 0
 
     x = np.arange(len(incomes))
     width = 0.35
@@ -162,11 +166,11 @@ def create_service_worker_reality_chart(detailed_data):
     bars1 = ax2.bar(x - width/2, affordable_rent, width, label='Can Afford (30% of income)',
                     color=COLORS['service'], alpha=0.8)
     bars2 = ax2.bar(x + width/2, [market_rent] * len(incomes), width,
-                    label='Market Rate Rent ($2,337)', color=COLORS['struggling'], alpha=0.8)
+                    label=f'Market Rate Rent (USD {market_rent:,.0f})', color=COLORS['struggling'], alpha=0.8)
 
     ax2.set_title('RENT AFFORDABILITY GAP\nService Workers Priced Out',
                   fontsize=14, fontweight='bold')
-    ax2.set_ylabel('Monthly Rent ($)')
+    ax2.set_ylabel('Monthly Rent (USD)')
     ax2.set_xlabel('Annual Income')
     ax2.set_xticks(x)
     ax2.set_xticklabels([f'${i:,}' for i in incomes])
@@ -177,7 +181,7 @@ def create_service_worker_reality_chart(detailed_data):
     for i, (income, afford) in enumerate(zip(incomes, affordable_rent)):
         gap = market_rent - afford
         if gap > 0:
-            ax2.annotate(f'GAP:\n${gap:.0f}/month',
+            ax2.annotate(f'GAP:\nUSD {gap:.0f}/month',
                         xy=(i, (afford + market_rent)/2),
                         ha='center', va='center',
                         fontsize=10, fontweight='bold',
@@ -406,7 +410,9 @@ def create_honest_summary_dashboard(baseline_data, detailed_data, md_release=Non
     afford_colors = [COLORS['comfortable'], COLORS['struggling']]
 
     bars = ax6.bar(afford_categories, afford_values, color=afford_colors, alpha=0.8)
-    ax6.set_title('HOUSING AFFORDABILITY REALITY\n$492K Median Home Price', fontsize=14, fontweight='bold')
+    mhv = metrics.get('median_home_value')
+    mhv_label = f'USD {mhv:,.0f} Median Home Price' if isinstance(mhv, (int, float)) else 'Median Home Price'
+    ax6.set_title(f'HOUSING AFFORDABILITY REALITY\n{mhv_label}', fontsize=14, fontweight='bold')
     ax6.set_ylabel('Number of Households')
     ax6.grid(True, alpha=0.3)
 
@@ -418,19 +424,22 @@ def create_honest_summary_dashboard(baseline_data, detailed_data, md_release=Non
     # Key findings
     ax7 = fig.add_subplot(gs[2:, :])
     # Use plain text; avoid unescaped dollar signs that trigger mathtext
+    _mhv_text = f"USD {mhv:,.0f}" if isinstance(mhv, (int, float)) else "median home"
+    m_gr = metrics.get('median_gross_rent')
+    _rent_text = f"USD {m_gr:,.0f}/month" if isinstance(m_gr, (int, float)) else "market rent"
     findings_text = (
 f"""
 REAL FINDINGS FROM REAL DATA:
 
-• SERVICE WORKERS: {service_workers:,} people (32.8% of workforce) in restaurants, retail, healthcare support, cleaning, etc.
-• HOUSING CRISIS: {priced_out:,} households ({affordability['cannot_afford_percentage']:.1f}%) cannot afford USD 492K median home
-• TRANSIT DESERT: {metrics['public_transit_rate']:.1f}% use public transit - workers must own cars ($650/month) to get to jobs
-• INCOME REALITY: 8% earn under USD 50K, 26% earn USD 200K+ - stark inequality in same community
+• SERVICE WORKERS: {service_workers:,} people of workforce in restaurants, retail, healthcare support, cleaning, etc.
+• HOUSING CRISIS: {priced_out:,} households ({affordability['cannot_afford_percentage']:.1f}%) cannot afford {_mhv_text}
+• TRANSIT DESERT: {metrics['public_transit_rate']:.1f}% use public transit – workers must own cars to get to jobs
+• INCOME REALITY: Income distribution shows affordability constraints across lower brackets
 
 REAL SOLUTIONS FOR REAL PEOPLE:
-• Affordable rental housing (USD 1,200–1,800/month) for service workers
-• Public transit connecting neighborhoods to job centers (save workers USD 450/month)
-• Workforce housing (USD 200K–350K) for teachers, nurses, firefighters
+• Affordable rental housing ({_rent_text}) for service workers
+• Public transit connecting neighborhoods to job centers
+• Workforce housing for teachers, nurses, firefighters
 • Local job creation to reduce long commutes
 
 THE REAL PROBLEM: Essential workers (restaurant staff, store clerks, healthcare aides) can't afford to live where they work.
@@ -482,13 +491,14 @@ def main():
 
     # Load real data
     baseline_data, detailed_data = load_real_data()
+    baseline_metrics = baseline_data.get('calculated_metrics', {})
     md_release = load_md_labor_release()
 
     print("\n1. Who actually lives here...")
-    create_who_actually_lives_here_chart(detailed_data)
+    create_who_actually_lives_here_chart(detailed_data, baseline_metrics)
 
     print("\n2. Service worker reality...")
-    create_service_worker_reality_chart(detailed_data)
+    create_service_worker_reality_chart(detailed_data, baseline_metrics)
 
     print("\n3. Real solutions...")
     create_real_solutions_chart()
