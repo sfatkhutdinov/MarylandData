@@ -124,7 +124,8 @@ def get_census_decennial_2020():
         print("ERROR: Need CENSUS_API_KEY in .env file")
         return None
 
-    base_url = 'https://api.census.gov/data/2020/dec/pl'
+    # Use 2020 Decennial DHC (Demographic and Housing Characteristics) for P1_001N
+    base_url = 'https://api.census.gov/data/2020/dec/dhc'
     variables = {
         'P1_001N': 'Total Population (Decennial 2020)'
     }
@@ -160,7 +161,7 @@ def get_census_decennial_2020():
                         'value': None
                     }
         raw_dir = os.path.join('data', 'raw', 'census')
-        saved_path = _save_raw(data, raw_dir, 'decennial_2020_pl_zcta21076')
+        saved_path = _save_raw(data, raw_dir, 'decennial_2020_dhc_zcta21076')
         provenance = {
             'endpoint': base_url,
             'year': 2020,
@@ -267,8 +268,11 @@ def save_results(acs, decennial, housing_data, metrics):
             'census_decennial_2020_pl': 'Decennial 2020 Public Law Redistricting Data',
             'housing': 'Maryland Department of Planning (pending integration)'
         },
+        # Preferred keys used by provenance audit
         'raw_census_acs5': acs,
         'raw_census_decennial': decennial,
+        # Backward-compatibility alias for older analyses that expect raw_census_data
+        'raw_census_data': (acs or {}).get('data') if isinstance(acs, dict) else acs,
         'housing_development_data': housing_data,
         'calculated_metrics': metrics
     }

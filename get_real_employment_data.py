@@ -7,10 +7,24 @@ Stop making assumptions about who lives here and what they do
 import requests
 import json
 import os
-import pandas as pd
+from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
+
+
+def _ensure_dir(path: str) -> None:
+    os.makedirs(path, exist_ok=True)
+
+
+def _save_raw(payload, out_dir: str, label: str) -> str:
+    _ensure_dir(out_dir)
+    ts = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+    fname = f"{label}_{ts}.json"
+    fpath = os.path.join(out_dir, fname)
+    with open(fpath, 'w') as f:
+        json.dump(payload, f, indent=2)
+    return fpath
 
 def get_detailed_income_distribution():
     """Get actual income distribution, not made-up brackets"""
@@ -49,7 +63,7 @@ def get_detailed_income_distribution():
     }
 
     try:
-        response = requests.get(base_url, params=params)
+        response = requests.get(base_url, params=params, timeout=int(os.getenv('API_TIMEOUT', '30')))
         response.raise_for_status()
         data = response.json()
 
@@ -76,7 +90,19 @@ def get_detailed_income_distribution():
                     'value': converted_value
                 }
 
-        return results
+        # Save raw and provenance
+        raw_dir = os.path.join('data', 'raw', 'census')
+        saved_path = _save_raw(data, raw_dir, 'acs5_2023_B19001_zcta21076')
+        provenance = {
+            'endpoint': base_url,
+            'year': 2023,
+            'variables': list(income_variables.keys()),
+            'geography': 'zip code tabulation area:21076',
+            'retrieved_at': datetime.utcnow().isoformat() + 'Z',
+            'raw_saved_to': saved_path
+        }
+
+        return {'data': results, 'provenance': provenance}
 
     except Exception as e:
         print(f"ERROR: {e}")
@@ -107,7 +133,7 @@ def get_employment_by_industry():
     }
 
     try:
-        response = requests.get(base_url, params=params)
+        response = requests.get(base_url, params=params, timeout=int(os.getenv('API_TIMEOUT', '30')))
         response.raise_for_status()
         data = response.json()
 
@@ -134,7 +160,19 @@ def get_employment_by_industry():
                     'value': converted_value
                 }
 
-        return results
+        # Save raw and provenance
+        raw_dir = os.path.join('data', 'raw', 'census')
+        saved_path = _save_raw(data, raw_dir, 'acs5_2023_C24010_zcta21076')
+        provenance = {
+            'endpoint': base_url,
+            'year': 2023,
+            'variables': list(employment_variables.keys()),
+            'geography': 'zip code tabulation area:21076',
+            'retrieved_at': datetime.utcnow().isoformat() + 'Z',
+            'raw_saved_to': saved_path
+        }
+
+        return {'data': results, 'provenance': provenance}
 
     except Exception as e:
         print(f"ERROR: {e}")
@@ -186,7 +224,9 @@ def analyze_real_affordability(income_data, baseline_metrics_path: str = os.path
 
     required_annual_income = monthly_housing_cost * 12 / 0.30  # 30% rule
 
-    total_households = income_data.get('B19001_001E', {}).get('value')
+    # Support both legacy shape (mapping) and new shape ({data, provenance})
+    _income_block = income_data.get('data', income_data) if isinstance(income_data, dict) else {}
+    total_households = _income_block.get('B19001_001E', {}).get('value')
     if not total_households:
         return None
 
@@ -215,7 +255,7 @@ def analyze_real_affordability(income_data, baseline_metrics_path: str = os.path
     ]
 
     for var_id, description, max_income in income_brackets:
-        households = income_data.get(var_id, {}).get('value', 0) or 0
+        households = _income_block.get(var_id, {}).get('value', 0) or 0
 
         if households > 0:
             income_breakdown[description] = {
@@ -223,10 +263,10 @@ def analyze_real_affordability(income_data, baseline_metrics_path: str = os.path
                 'percentage': (households / total_households) * 100
             }
 
-            if max_income >= required_annual_income:
-                can_afford += households
-            else:
-                cannot_afford += households
+        if max_income >= required_annual_income:
+            can_afford += households
+        else:
+            cannot_afford += households
 
     return {
         'required_income': required_annual_income,
@@ -259,10 +299,17 @@ def main():
     affordability = analyze_real_affordability(income_data)
 
     # Save results
+    # For backward compatibility, provide flat mappings to analysis code
+    income_payload = income_data['data'] if isinstance(income_data, dict) and 'data' in income_data else income_data
+    employment_payload = employment_data['data'] if isinstance(employment_data, dict) and 'data' in employment_data else employment_data
+
     results = {
-        'income_distribution': income_data,
-        'employment_by_industry': employment_data,
-        'affordability_analysis': affordability
+        'income_distribution': income_payload,
+        'employment_by_industry': employment_payload,
+        'affordability_analysis': affordability,
+        # Attach provenance for transparency
+        'income_provenance': income_data.get('provenance') if isinstance(income_data, dict) else None,
+        'employment_provenance': employment_data.get('provenance') if isinstance(employment_data, dict) else None
     }
 
     os.makedirs('data', exist_ok=True)
@@ -274,11 +321,11 @@ def main():
     print("REAL DATA SUMMARY")
     print("=" * 50)
 
-    if employment_data:
-        total_employed = employment_data.get('C24010_001E', {}).get('value')
+    if employment_payload:
+        total_employed = employment_payload.get('C24010_001E', {}).get('value')
         if total_employed:
             print(f"\nEMPLOYMENT BY OCCUPATION:")
-            for var_id, data in employment_data.items():
+            for var_id, data in employment_payload.items():
                 if var_id != 'C24010_001E' and data.get('value'):
                     percentage = (data['value'] / total_employed) * 100
                     print(f"  {data['description']}: {data['value']:,} ({percentage:.1f}%)")

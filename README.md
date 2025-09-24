@@ -199,3 +199,25 @@ This project leverages Model Context Protocol (MCP) servers for real-time data v
 **Next Review:** March 2026
 
 *This analysis maintains methodological transparency and provides a template for evidence-based community planning that can be replicated in similar suburban growth contexts.*
+
+---
+
+## Provenance Audit (Trust, but verify)
+
+If you want a one-command proof that this repo’s numbers aren’t hallucinated, run the provenance audit. It:
+- Verifies outputs are traceable to raw cached API responses (with endpoint, variables, geography, timestamps)
+- Cross-checks key metrics against raw values (population, vacancy, price-to-income)
+- Scans for misplaced or duplicate raw files and suggests cleanup
+- Produces a report at `data/provenance_audit_report.md`
+
+Try it:
+
+```
+python scripts/audit_provenance.py
+```
+
+Interpretation:
+- Overall: PASS — provenance links and metric cross-checks are consistent
+- WARN/FAIL — missing provenance or mismatches; the report explains exactly what to fix
+
+Note: Employment/income ingestion currently does not cache raw API arrays; the audit will recommend persisting those next for full parity with ACS caching.
