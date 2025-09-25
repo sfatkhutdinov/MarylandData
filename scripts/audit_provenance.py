@@ -17,7 +17,7 @@ import json
 import os
 import sys
 import hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -147,18 +147,24 @@ def audit_hanover_real_data(report_lines: List[str]) -> Tuple[bool, List[str]]:
     return ok, notes
 
 
-def audit_real_employment_income(report_lines: List[str]) -> Tuple[bool, List[str]]:
+def audit_real_employment_income(report_lines: List[str]) -> Tuple[bool, List[str], Dict[str, bool]]:
     ok = True
     notes: List[str] = []
     path = os.path.join(ROOT, 'data', 'real_employment_income.json')
     exists = os.path.exists(path)
     report_lines.append(f"- data/real_employment_income.json exists: {_fmt_bool(exists)}")
     if not exists:
-        return False, ["Missing data/real_employment_income.json"]
+        return False, ["Missing data/real_employment_income.json"], {
+            'income_raw_ok': False,
+            'employment_raw_ok': False,
+        }
 
     doc = _read_json(path)
     if not isinstance(doc, dict):
-        return False, ["Could not parse data/real_employment_income.json as JSON object"]
+        return False, ["Could not parse data/real_employment_income.json as JSON object"], {
+            'income_raw_ok': False,
+            'employment_raw_ok': False,
+        }
 
     income = doc.get('income_distribution')
     employment = doc.get('employment_by_industry')
@@ -174,10 +180,28 @@ def audit_real_employment_income(report_lines: List[str]) -> Tuple[bool, List[st
     report_lines.append(f"  • Affordability provenance baseline path exists: {_fmt_bool(baseline_exists)} ({_rel(baseline_path) if baseline_path else 'N/A'})")
     ok = ok and baseline_exists
 
-    # Known gap: this ingestion does not currently cache raw API arrays
-    notes.append("Raw API arrays for income/employment are not cached in data/raw; recommend enhancing ingestion to persist raw + provenance.")
+    # Verify raw caching + provenance for income and employment blocks if present
+    income_prov = doc.get('income_provenance') if isinstance(doc, dict) else None
+    emp_prov = doc.get('employment_provenance') if isinstance(doc, dict) else None
 
-    return ok, notes
+    has_income_prov = isinstance(income_prov, dict) and isinstance(income_prov.get('raw_saved_to'), str)
+    has_emp_prov = isinstance(emp_prov, dict) and isinstance(emp_prov.get('raw_saved_to'), str)
+
+    # Check referenced raw files exist
+    income_raw = (income_prov or {}).get('raw_saved_to')
+    emp_raw = (emp_prov or {}).get('raw_saved_to')
+    income_raw_exists = isinstance(income_raw, str) and os.path.exists(os.path.join(ROOT, income_raw) if not os.path.isabs(income_raw) else income_raw)
+    emp_raw_exists = isinstance(emp_raw, str) and os.path.exists(os.path.join(ROOT, emp_raw) if not os.path.isabs(emp_raw) else emp_raw)
+
+    report_lines.append(f"  • Income ingestion has provenance and raw cache: {_fmt_bool(has_income_prov and income_raw_exists)}" + (f" ({_rel(income_raw)})" if income_raw else " (N/A)"))
+    report_lines.append(f"  • Employment ingestion has provenance and raw cache: {_fmt_bool(has_emp_prov and emp_raw_exists)}" + (f" ({_rel(emp_raw)})" if emp_raw else " (N/A)"))
+
+    ok = ok and (has_income_prov and income_raw_exists) and (has_emp_prov and emp_raw_exists)
+
+    return ok, notes, {
+        'income_raw_ok': bool(has_income_prov and income_raw_exists),
+        'employment_raw_ok': bool(has_emp_prov and emp_raw_exists),
+    }
 
 
 def scan_raw_files(report_lines: List[str]) -> Tuple[List[str], List[Tuple[str, str]]]:
@@ -241,7 +265,7 @@ def scan_raw_files(report_lines: List[str]) -> Tuple[List[str], List[Tuple[str, 
 
 
 def main() -> int:
-    ts = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%SZ')
+    ts = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%SZ')
     lines: List[str] = []
     lines.append(f"# Provenance Audit Report\n")
     lines.append(f"Generated: {ts} UTC\n")
@@ -261,7 +285,7 @@ def main() -> int:
 
     # Audit detailed employment/income
     lines.append("### Detailed (data/real_employment_income.json)\n")
-    ok2, notes2 = audit_real_employment_income(lines)
+    ok2, notes2, income_emp_flags = audit_real_employment_income(lines)
     overall_ok = overall_ok and ok2
     if notes2:
         lines.append("\nNotes:")
@@ -282,7 +306,9 @@ def main() -> int:
         lines.append("- Raw artifacts appear centralized under data/raw/**.")
     if duplicates:
         lines.append("- Remove or consolidate duplicate raw files listed above to avoid confusion.")
-    lines.append("- Enhance income/employment ingestion to cache raw API arrays and attach provenance (endpoint, variables, geography, retrieved_at, raw_saved_to).")
+    # Recommend enhancing income/employment raw caching only if missing
+    if not (income_emp_flags.get('income_raw_ok') and income_emp_flags.get('employment_raw_ok')):
+        lines.append("- Enhance income/employment ingestion to cache raw API arrays and attach provenance (endpoint, variables, geography, retrieved_at, raw_saved_to).")
     lines.append("- Keep figures and analysis reading only persisted inputs; avoid any transient data in notebooks.")
 
     # Status

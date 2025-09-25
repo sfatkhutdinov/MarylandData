@@ -9,7 +9,7 @@ import json
 import os
 import hashlib
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,7 +20,7 @@ def _ensure_dir(path: str) -> None:
 
 def _save_raw(payload, out_dir: str, label: str) -> str:
     _ensure_dir(out_dir)
-    ts = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+    ts = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     fname = f"{label}_{ts}.json"
     fpath = os.path.join(out_dir, fname)
     with open(fpath, 'w') as f:
@@ -105,7 +105,7 @@ def get_census_acs5(year: int = 2023):
             'year': year,
             'variables': list(variables.keys()),
             'geography': 'zip code tabulation area:21076',
-            'retrieved_at': datetime.utcnow().isoformat() + 'Z',
+            'retrieved_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             'raw_saved_to': saved_path
         }
 
@@ -167,7 +167,7 @@ def get_census_decennial_2020():
             'year': 2020,
             'variables': list(variables.keys()),
             'geography': 'zip code tabulation area:21076',
-            'retrieved_at': datetime.utcnow().isoformat() + 'Z',
+            'retrieved_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             'raw_saved_to': saved_path
         }
         print("Successfully collected Decennial 2020 population")

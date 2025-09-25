@@ -7,7 +7,7 @@ Stop making assumptions about who lives here and what they do
 import requests
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -19,7 +19,7 @@ def _ensure_dir(path: str) -> None:
 
 def _save_raw(payload, out_dir: str, label: str) -> str:
     _ensure_dir(out_dir)
-    ts = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+    ts = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     fname = f"{label}_{ts}.json"
     fpath = os.path.join(out_dir, fname)
     with open(fpath, 'w') as f:
@@ -98,7 +98,7 @@ def get_detailed_income_distribution():
             'year': 2023,
             'variables': list(income_variables.keys()),
             'geography': 'zip code tabulation area:21076',
-            'retrieved_at': datetime.utcnow().isoformat() + 'Z',
+            'retrieved_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             'raw_saved_to': saved_path
         }
 
@@ -168,7 +168,7 @@ def get_employment_by_industry():
             'year': 2023,
             'variables': list(employment_variables.keys()),
             'geography': 'zip code tabulation area:21076',
-            'retrieved_at': datetime.utcnow().isoformat() + 'Z',
+            'retrieved_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             'raw_saved_to': saved_path
         }
 

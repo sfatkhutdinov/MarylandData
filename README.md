@@ -220,4 +220,4 @@ Interpretation:
 - Overall: PASS — provenance links and metric cross-checks are consistent
 - WARN/FAIL — missing provenance or mismatches; the report explains exactly what to fix
 
-Note: Employment/income ingestion currently does not cache raw API arrays; the audit will recommend persisting those next for full parity with ACS caching.
+The audit verifies that both ACS/Decennial baseline and the income/employment ingestions cache their raw Census API arrays under data/raw/census with attached provenance (endpoint, variables, geography, timestamps). If any referenced raw files are missing, it will flag them.

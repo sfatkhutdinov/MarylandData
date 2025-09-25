@@ -1,6 +1,6 @@
 # Provenance Audit Report
 
-Generated: 2025-09-24 23:53:37Z UTC
+Generated: 2025-09-25 00:02:19Z UTC
 
 ## Checks
 
@@ -20,22 +20,18 @@ Generated: 2025-09-24 23:53:37Z UTC
 - data/real_employment_income.json exists: PASS
   • Contains income, employment, affordability blocks: PASS
   • Affordability provenance baseline path exists: PASS (data/hanover_real_data.json)
-
-Notes:
-- Raw API arrays for income/employment are not cached in data/raw; recommend enhancing ingestion to persist raw + provenance.
+  • Income ingestion has provenance and raw cache: PASS (data/raw/census/acs5_2023_B19001_zcta21076_20250924T235242Z.json)
+  • Employment ingestion has provenance and raw cache: PASS (data/raw/census/acs5_2023_C24010_zcta21076_20250924T235242Z.json)
 
 ### Raw file layout
 
-- Raw files discovered: 19
+- Raw files discovered: 18
   • No misplaced raw files detected
-  • Duplicate raw artifacts (identical content):
-    – data/raw/census/acs5_2023_zcta21076_20250924T235331Z.json == data/raw/census/acs5_2023_zcta21076_20250924T235229Z.json
+  • No duplicate raw artifacts detected
 
 ## Recommendations
 
 - Raw artifacts appear centralized under data/raw/**.
-- Remove or consolidate duplicate raw files listed above to avoid confusion.
-- Enhance income/employment ingestion to cache raw API arrays and attach provenance (endpoint, variables, geography, retrieved_at, raw_saved_to).
 - Keep figures and analysis reading only persisted inputs; avoid any transient data in notebooks.
 
 ## Status
